@@ -1,0 +1,119 @@
+/*
+ * Save Keptn details as Jenkins secrets (eg. URL as https://mykeptn.com/api/v1/event and API_TOKEN: ****)
+ * Create a dedicated Jenkins user for builds. Create an API token for this user.
+ * Go to Manage Jenkins > Configure Global Security > Matrix based security
+ * Assign permissions: Overall read. Job build and Job read
+ *
+ * Create pipeline and click "trigger builds remotely". Create an Authentication token
+ * Add the following string parameters:
+ * - keptnProject
+ * - keptnService
+ * - keptnStage
+ * - keptnTriggeredID
+ * - keptnContext
+ *
+ * -- USAGE --
+ * A user triggers a Keptn sequence
+ * The webhook service listens for the task.triggered event in Keptn and sends a POST to Jenkins
+ * http://dedicatedbuilduser:API-TOKEN-HERE@myjenkins.com/job/pipeline1/buildWithParameters?token=AUTHENTICATION-TOKEN-HERE&keptnProject={{.data.project}}&keptnService={{.data.service}}&keptnStage={{.data.stage}}&keptnTask={{.type}}&keptnTriggeredID={{.id}}&keptnContext={{.shkeptncontext}}
+ * 
+ */
+
+def payload = ""
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Keptn and Jenkins') {
+            steps {
+                     
+                script {
+                    /*
+                     * Craft and send started event
+                     * Note: you decide if this is required. Perhaps you let the webhook service send it for you?
+                     * If you do let the webhook send the started event, you still need to send the .finished event from Jenkins
+                     * If you do let the webhook service send the started event, the task time starts when the webhook service sends the POST to trigger the job
+                     * If the job doesn't actually start for X seconds, the task time according to Keptn will be webhook POST to .finished event so it might be a bit out
+                     * All of that said, delegating .started to the webhook service does make your pipeline slightly easier as it is one less thing to do
+                     */
+                    
+                    /* First, get the task name from input
+                     * comes in as: "sh.keptn.event.deployment.triggered" we just need "deployment"
+                     */
+                    def (sh, keptn, event, task, verb) =  "${params.keptnTask}".split('\\.')
+                    
+                    /*
+                     * "status": ["succeeded", "errored", "unknown"] 
+                     * "result": ["pass", "warning", "fail"]
+                     *
+                     * Parameters below are the mandatory minimum. Any extra data you want to send can be included inside the "data" block.
+                    */
+                    payload = """ \
+                    {
+                      "data": {
+                        "project": "${params.keptnProject}",
+                        "service": "${params.keptnService}",
+                        "stage": "${params.keptnStage}",
+                        "status": "succeeded",
+                        "result": "pass"
+                      },
+                      "source": "jenkins",
+                      "specversion": "1.0",
+                      "triggeredid": "${params.keptnTriggeredID}",
+                      "shkeptncontext": "${params.keptnContext}",
+                      "type": "sh.keptn.event.${task}.started"
+                    }
+                    """.stripIndent()
+               
+                  
+                } // end send started event script
+                
+                // Send started event
+                withCredentials([string(credentialsId: 'KEPTN_API_TOKEN', variable: 'API_TOKEN')]) {
+                  sh "curl -X POST -H 'x-token: ${API_TOKEN}' -H 'Content-Type: application/json' -d '${payload}' https://mykeptn.com/api/v1/event"
+                }
+                
+                ///////////////////////////
+                //     Do work here...   //    
+                //////////////////////////
+                
+                script {
+                    // Craft and send finished event
+                    
+                    /* First, get the task name from input
+                     * comes in as: "sh.keptn.event.deployment.triggered"
+                     * we just need "deployment"
+                     */
+                    def (sh, keptn, event, task, verb) =  "${params.keptnTask}".split('\\.')
+                    
+                    echo "Finished: Task is ${task} and verb is ${verb}"
+                    
+                    payload = """ \
+                    {
+                      "data": {
+                        "project": "${params.keptnProject}",
+                        "service": "${params.keptnService}",
+                        "stage": "${params.keptnStage}",
+                        "status": "succeeded", 
+                        "result": "pass"
+                      },
+                      "source": "jenkins",
+                      "specversion": "1.0",
+                      "triggeredid": "${params.keptnTriggeredID}",
+                      "shkeptncontext": "${params.keptnContext}",
+                      "type": "sh.keptn.event.${task}.finished"
+                    }
+                    """.stripIndent()
+               
+                  
+                } // end send finished event script
+                
+                // Send finished event
+                withCredentials([string(credentialsId: 'API_TOKEN', variable: 'API_TOKEN')]) {
+                  sh "curl -X POST -H 'x-token: ${API_TOKEN}' -H 'Content-Type: application/json' -d '${payload}' https://mykeptn.com/api/v1/event"
+                }
+            } // end steps
+        } // end stage
+    }
+}
