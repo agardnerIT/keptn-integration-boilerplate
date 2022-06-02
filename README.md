@@ -4,6 +4,8 @@ Handy code snippets to integrate Keptn with your favourite tools. Can't find wha
 
 ## Jenkins
 
+### Usecase: Jenkins has a public IP and Keptn can trigger Jenkins Jobs
+
 Cloud Automation triggers a Jenkins Pipeline. The webhook service either sends the `task.started` event or let your pipeline build and send it.
 
 [Sample code here](Jenkinsfile.sample).
