@@ -29,3 +29,5 @@ The curl command is formatted to trigger the Jenkins pipeline. No inbound commun
 Just like the previous scenario, when Jenkins starts, the job sends the `task.started` event. When the job is finished, the job sends the `task.finished` event.
 
 [Sample code here (TODO)](https://example.com)
+
+------------------------------------------------------------------------------------
