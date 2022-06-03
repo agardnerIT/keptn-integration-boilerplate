@@ -15,7 +15,7 @@ This scenario applies when Keptn control plane and Jenkins are on the same netwo
 
 Choosing the webhook service to automatically send the `task.started` and `task.finished` events is the easiest solution. In this case, zero modifications are required to the Jenkins job.
 
-However, in this case, the timing of hte task is wrong because the time "seen" by keptn is really teh time it took to fire the HTTP POST (ie. instant).
+However, in this case, the timing of the task is wrong because the time "seen" by keptn is really the time it took to fire the HTTP POST (ie. instant).
 
 You can also let the webhook service send the `task.started` event and delegate the `task.finished` event to the webhook receiver (ie. Jenkins). In which case, a modification is required so the job sends the `task.finished` event back to Keptn.
 
