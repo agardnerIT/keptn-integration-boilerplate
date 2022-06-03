@@ -1,0 +1,33 @@
+apiVersion: v2
+actions:
+  - name: "Trigger Jenkins via CURL"
+    events:
+      - name: "sh.keptn.event.deployment.triggered"
+    tasks:
+      - name: "Trigger Jenkins"
+        image: "curlimages/curl:7.83.1"
+        env:
+          - name: PROJECT
+            value: "$.data.project"
+            valueFrom: event
+          - name: SERVICE
+            value: "$.data.service"
+            valueFrom: event
+          - name: STAGE
+            value: "$.data.stage"
+            valueFrom: event
+          - name: TASK
+            value: "$.type"
+            valueFrom: event
+          - name: TRIGGERED_ID
+            value: "$.id"
+            valueFrom: event
+          - name: KEPTN_CONTEXT
+            value: "$.shkeptncontext"
+            valueFrom: event
+        cmd:
+          - "curl"
+        args:
+          - "-X"
+          - "POST"
+          - "https://user:api-token@myjenkins.com:8080/job/pipeline1/buildWithParameters?token=<RemoteJobTriggerToken>&keptnProject=$(PROJECT)&keptnService=$(SERVICE)&keptnStage=$(STAGE)&keptnTask=$(TASK)&keptnTriggeredID=$(TRIGGERED_ID)&keptnContext=$(KEPTN_CONTEXT)"
