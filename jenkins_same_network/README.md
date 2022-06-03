@@ -23,4 +23,4 @@ The benefit of this is that the timing is correct. Time is between firing of the
 
 > Webhook service sending the started event. Jenkins sends finished event. 99% of the time this is the correct setup.
 
-The edge case for this setup is if you have included a start delay on Jenkins. Again, the timing starts when the webhook service fires the POST request. In these cases, you may wish to delegate BOTH `task.started` and `task.finished events to Jenkins. More modifications required to the pipeline, but you are in complete control of the timings.
+The edge case for this setup is if you have included a start delay on Jenkins. Again, the timing starts when the webhook service fires the POST request. In these cases, you may wish to delegate BOTH `task.started` and `task.finished` events to Jenkins. More modifications required to the pipeline, but you are in complete control of the timings.
