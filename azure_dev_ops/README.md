@@ -16,6 +16,25 @@
 6. (optional see below) Add a pipeline task to send the `task.started` event
 7. Add a pipeline task to send the `task.finished` event
 
+VARIABLES IMAGE HERE
+
+## Started Event Task
+
+Work in progress...
+
+```
+TASK=$(echo $keptnTask | cut -d '.' -f 4)
+echo "Task is: $TASK"
+curl -X POST "https://mykeptn.com/api/v1/event" -H "accept: application/json" -H "x-token: $(keptnAPIToken)" -H "Content-Type: application/json" -d "{ \"data\": { \"project\": \"$(keptnProject)\", \"result\": \"pass\", \"service\": \"$(keptnService)\", \"stage\": \"$(keptnStage)\", \"status\": \"succeeded\", \"message\": \"ADO pipeline finished...\" }, \"source\": \"azure-devops\", \"specversion\": \"1.0\", \"type\": \"sh.keptn.event.$(TASK).started\", \"shkeptncontext\": \"$(keptnContext)\", \"triggeredid\": \"$(keptnTriggeredId)\"}"
+```
+
+## Finished Event Task
+
+
+
+
+
+
 ## Started and Finished Events: Webhook service or Azure DevOps Sends?
 
 Choosing the webhook service to automatically send the `task.started` and `task.finished` events is the easiest solution. In this case, zero modifications are required to the pipeline.
