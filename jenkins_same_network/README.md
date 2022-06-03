@@ -2,6 +2,8 @@
 
 ![keptn_jenkins_1](https://user-images.githubusercontent.com/26523841/171759371-9aab309b-7526-4ace-8030-dda23a4ec875.png)
 
+> TLDR: [Sample pipeline code here](Jenkinsfile.sample)
+
 This scenario applies when Keptn control plane and Jenkins are on the same network (ie. Keptn can trigger Jenkins).
 
 1. Use the keptn webhook service to listen for the `task.triggered` event

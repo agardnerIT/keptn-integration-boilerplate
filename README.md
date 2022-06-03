@@ -14,7 +14,7 @@ In other words, inbound comms from Keptn to Jenkins is possible. Keptn is able t
 
 Keptn triggers a Jenkins Pipeline. The webhook service either sends the `task.started` event or let your pipeline build and send it.
 
-[Sample code here](jenkins_same_network/Jenkinsfile.sample).
+[Sample code here](jenkins_same_network).
 
 ### Usecase: No Inbound Connections Allowed to Jenkins
 
