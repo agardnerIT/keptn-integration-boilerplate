@@ -7,7 +7,10 @@
 
 
 ## 1. Keptn Triggers Ansible Tower / AWX
-TODO
+
+![image](https://user-images.githubusercontent.com/26523841/173012968-69773e1a-0d69-4e73-809e-fcd2c81d842e.png)
+
+[Sample playbook here](sample.playbook.yaml)
 
 ## 2. Ansible Tower / AWX Triggers Keptn
 TODO
