@@ -18,18 +18,20 @@
 
 VARIABLES IMAGE HERE
 
-## Started Event Task
-
-Work in progress...
+## Started Event Task (optional)
 
 ```
 TASK=$(echo $keptnTask | cut -d '.' -f 4)
 echo "Task is: $TASK"
-curl -X POST "https://mykeptn.com/api/v1/event" -H "accept: application/json" -H "x-token: $(keptnAPIToken)" -H "Content-Type: application/json" -d "{ \"data\": { \"project\": \"$(keptnProject)\", \"result\": \"pass\", \"service\": \"$(keptnService)\", \"stage\": \"$(keptnStage)\", \"status\": \"succeeded\", \"message\": \"ADO pipeline finished...\" }, \"source\": \"azure-devops\", \"specversion\": \"1.0\", \"type\": \"sh.keptn.event.$(TASK).started\", \"shkeptncontext\": \"$(keptnContext)\", \"triggeredid\": \"$(keptnTriggeredId)\"}"
+curl -X POST "https://mykeptn.com/api/v1/event" -H "accept: application/json" -H "x-token: $(keptnAPIToken)" -H "Content-Type: application/json" -d "{ \"data\": { \"project\": \"$(keptnProject)\", \"result\": \"pass\", \"service\": \"$(keptnService)\", \"stage\": \"$(keptnStage)\", \"status\": \"succeeded\", \"message\": \"ADO pipeline started...\" }, \"source\": \"azure-devops\", \"specversion\": \"1.0\", \"type\": \"sh.keptn.event.$(TASK).started\", \"shkeptncontext\": \"$(keptnContext)\", \"triggeredid\": \"$(keptnTriggeredId)\"}"
 ```
 
 ## Finished Event Task
-
+```
+TASK=$(echo $keptnTask | cut -d '.' -f 4)
+echo "Task is: $TASK"
+curl -X POST "https://mykeptn.com/api/v1/event" -H "accept: application/json" -H "x-token: $(keptnAPIToken)" -H "Content-Type: application/json" -d "{ \"data\": { \"project\": \"$(keptnProject)\", \"result\": \"pass\", \"service\": \"$(keptnService)\", \"stage\": \"$(keptnStage)\", \"status\": \"succeeded\", \"message\": \"ADO pipeline finished...\" }, \"source\": \"azure-devops\", \"specversion\": \"1.0\", \"type\": \"sh.keptn.event.$(TASK).finished\", \"shkeptncontext\": \"$(keptnContext)\", \"triggeredid\": \"$(keptnTriggeredId)\"}"
+```
 
 
 
