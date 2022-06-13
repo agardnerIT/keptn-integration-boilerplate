@@ -2,6 +2,8 @@
 
 Handy code snippets to integrate Keptn with your favourite tools. Can't find what you need here? Look at the [Keptn integrations page](https://keptn.sh/docs/integrations/)
 
+------
+
 ## Jenkins
 
 ### Usecase: Keptn and Jenkins Deployed in the same network
@@ -30,4 +32,14 @@ Just like the previous scenario, when Jenkins starts, the job sends the `task.st
 
 [Sample code here](jenkins_no_inbound_access)
 
-------------------------------------------------------------------------------------
+-------
+
+## Azure DevOps (ADO)
+
+TODO
+
+--------
+
+## AWX / Ansible Tower
+
+TODO
