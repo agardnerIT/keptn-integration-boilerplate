@@ -1,5 +1,8 @@
 # Triggering Azure DevOps Pipelines from Keptn
 
+![keptn_ado](https://user-images.githubusercontent.com/26523841/173278871-04fdbc56-38a0-4c02-8058-0b69271bb76e.png)
+
+
 1. Create an ADO Personal Access Token (PAT). Set permissions as `Build (Read and Execute)`.
 2. Add a subscription to the Keptn webhook service for the relevant `task.triggered` event.
 3. HTTP `POST` to `https://dev.azure.com/{organization}/{project}/_apis/pipelines/{pipelineId}/runs?api-version=6.0-preview.1` ([see Azure docs for full info](https://docs.microsoft.com/en-us/rest/api/azure/devops/pipelines/runs/run-pipeline?view=azure-devops-rest-6.0))
