@@ -40,6 +40,6 @@ Just like the previous scenario, when Jenkins starts, the job sends the `task.st
 
 --------
 
-## AWX / Ansible Tower
+## [AWX / Ansible Tower](https://github.com/agardnerIT/keptn-integration-boilerplate/tree/main/ansible_awx_tower)
 
-TODO
+[See here](https://github.com/agardnerIT/keptn-integration-boilerplate/tree/main/ansible_awx_tower).
