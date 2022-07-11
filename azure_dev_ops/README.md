@@ -21,24 +21,42 @@
 
 ![variables](assets/images/ado_variables.png)
 
+## Extract Task Name from Incoming Event
+
+Saved as `taskName`:
+```
+# From "sh.keptn.event.taskname.triggered" extract "taskname"
+export TASK=$(echo $keptnTask | cut -d '.' -f 4)
+echo "Task is: $(TASK)"
+echo "##vso[task.setvariable variable=taskName;]$TASK"
+```
+
 ## Started Event Task (optional)
 
+You can choose to send this from Azure or let the Keptn webhook service send it.
+
+The code below demonstrates how to send from ADO.
+
 ```
-TASK=$(echo $keptnTask | cut -d '.' -f 4)
-echo "Task is: $TASK"
-curl -X POST "https://mykeptn.com/api/v1/event" -H "accept: application/json" -H "x-token: $(keptnAPIToken)" -H "Content-Type: application/json" -d "{ \"data\": { \"project\": \"$(keptnProject)\", \"result\": \"pass\", \"service\": \"$(keptnService)\", \"stage\": \"$(keptnStage)\", \"status\": \"succeeded\", \"message\": \"ADO pipeline started...\" }, \"source\": \"azure-devops\", \"specversion\": \"1.0\", \"type\": \"sh.keptn.event.$(TASK).started\", \"shkeptncontext\": \"$(keptnContext)\", \"triggeredid\": \"$(keptnTriggeredId)\"}"
+# From "sh.keptn.event.taskname.triggered" extract "taskname"
+export TASK=$(echo $keptnTask | cut -d '.' -f 4)
+echo "##vso[task.setvariable variable=taskName;]$TASK"
+
+curl -X POST "https://YourKeptn.com/api/v1/event" \
+-H "accept: application/json" -H "x-token: $(keptnAPIToken)" \
+-H "Content-Type: application/json" \
+-d "{ \"data\": { \"project\": \"$(keptnProject)\", \"result\": \"pass\", \"service\": \"$(keptnService)\", \"stage\": \"$(keptnStage)\", \"status\": \"succeeded\", \"message\": \"ADO pipeline finished...\" }, \"source\": \"azure-devops\", \"specversion\": \"1.0\", \"type\": \"sh.keptn.event.$(taskName).started\", \"shkeptncontext\": \"$(keptnContext)\", \"triggeredid\": \"$(keptnTriggeredId)\"}"
 ```
 
 ## Finished Event Task
 ```
 TASK=$(echo $keptnTask | cut -d '.' -f 4)
-echo "Task is: $TASK"
-curl -X POST "https://mykeptn.com/api/v1/event" -H "accept: application/json" -H "x-token: $(keptnAPIToken)" -H "Content-Type: application/json" -d "{ \"data\": { \"project\": \"$(keptnProject)\", \"result\": \"pass\", \"service\": \"$(keptnService)\", \"stage\": \"$(keptnStage)\", \"status\": \"succeeded\", \"message\": \"ADO pipeline finished...\" }, \"source\": \"azure-devops\", \"specversion\": \"1.0\", \"type\": \"sh.keptn.event.$(TASK).finished\", \"shkeptncontext\": \"$(keptnContext)\", \"triggeredid\": \"$(keptnTriggeredId)\"}"
+
+curl -X POST "https://YourKeptn.com/api/v1/event" \
+-H "accept: application/json" -H "x-token: $(keptnAPIToken)" \
+-H "Content-Type: application/json" \
+-d "{ \"data\": { \"project\": \"$(keptnProject)\", \"result\": \"pass\", \"service\": \"$(keptnService)\", \"stage\": \"$(keptnStage)\", \"status\": \"succeeded\", \"message\": \"ADO pipeline finished...\" }, \"source\": \"azure-devops\", \"specversion\": \"1.0\", \"type\": \"sh.keptn.event.$(TASK).finished\", \"shkeptncontext\": \"$(keptnContext)\", \"triggeredid\": \"$(keptnTriggeredId)\"}"
 ```
-
-
-
-
 
 ## Started and Finished Events: Webhook service or Azure DevOps Sends?
 
