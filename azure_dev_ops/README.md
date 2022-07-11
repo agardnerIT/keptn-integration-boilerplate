@@ -1,6 +1,6 @@
 # Triggering Azure DevOps Pipelines from Keptn
 
-![overview](assets/images/overview.png)
+![overview](assets/images/ado_overview.png)
 
 
 1. Create an ADO Personal Access Token (PAT). Set permissions as `Build (Read and Execute)`.
