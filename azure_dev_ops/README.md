@@ -19,7 +19,7 @@
 6. (optional see below) Add a pipeline task to send the `task.started` event
 7. Add a pipeline task to send the `task.finished` event
 
-VARIABLES IMAGE HERE
+![variables](assets/images/ado_variables.png)
 
 ## Started Event Task (optional)
 
