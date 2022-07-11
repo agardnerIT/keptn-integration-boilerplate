@@ -45,10 +45,13 @@ echo "##vso[task.setvariable variable=taskName;]$TASK"
 curl -X POST "https://YourKeptn.com/api/v1/event" \
 -H "accept: application/json" -H "x-token: $(keptnAPIToken)" \
 -H "Content-Type: application/json" \
--d "{ \"data\": { \"project\": \"$(keptnProject)\", \"result\": \"pass\", \"service\": \"$(keptnService)\", \"stage\": \"$(keptnStage)\", \"status\": \"succeeded\", \"message\": \"ADO pipeline finished...\" }, \"source\": \"azure-devops\", \"specversion\": \"1.0\", \"type\": \"sh.keptn.event.$(taskName).started\", \"shkeptncontext\": \"$(keptnContext)\", \"triggeredid\": \"$(keptnTriggeredId)\"}"
+-d "{ \"data\": { \"project\": \"$(keptnProject)\", \"result\": \"pass\", \"service\": \"$(keptnService)\", \"stage\": \"$(keptnStage)\", \"status\": \"succeeded\", \"message\": \"ADO pipeline started...\" }, \"source\": \"azure-devops\", \"specversion\": \"1.0\", \"type\": \"sh.keptn.event.$(taskName).started\", \"shkeptncontext\": \"$(keptnContext)\", \"triggeredid\": \"$(keptnTriggeredId)\"}"
 ```
 
 ## Finished Event Task
+
+Azure DevOps **must** send a finished event back to Keptn:
+
 ```
 TASK=$(echo $keptnTask | cut -d '.' -f 4)
 
